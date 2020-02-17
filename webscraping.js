@@ -108,8 +108,8 @@ const lectureXML = async (result) => {
   let nbEchec=0;
   let nbReussite=0;
   let nbSiteNonReconnu=0;
-  //for(numArticle=0;numArticle<result.dblp.article.length;numArticle++){
-  for(numArticle=0;numArticle<5;numArticle++){
+  for(numArticle=0;numArticle<result.dblp.article.length;numArticle++){
+  //for(numArticle=0;numArticle<5;numArticle++){
     let nombreArticle=numArticle+1;
     let titre=result.dblp.article[numArticle].title;
     console.log(result.dblp.article[numArticle].title);
