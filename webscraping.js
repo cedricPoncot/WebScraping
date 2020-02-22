@@ -108,8 +108,8 @@ const lectureXML = async (result) => {
   let nbEchec=0;
   let nbReussite=0;
   let nbSiteNonReconnu=0;
-  for(numArticle=0;numArticle<result.dblp.article.length;numArticle++){
-  //for(numArticle=0;numArticle<5;numArticle++){
+  //for(numArticle=0;numArticle<result.dblp.article.length;numArticle++){
+  for(numArticle=0;numArticle<5;numArticle++){
     let nombreArticle=numArticle+1;
     let titre=result.dblp.article[numArticle].title;
     console.log(result.dblp.article[numArticle].title);
@@ -136,10 +136,16 @@ const lectureXML = async (result) => {
 }
 
 function ajoutStructure(value){
-  for(i=0;i<value.length;i++){
-    bd[compteur]={"clé":value[i],"similitude":[{"clé_sim":"C","poids":1}]};
-    compteur++;
-  }
+	for(j=0;j<value.length;j++){
+	  for(i=0;i<value.length;i++){
+	  	if(j!=j){
+		    bd[compteur]={"clé":value[j],"similitude":[{"clé_sim":value[i],"poids":1}]};
+		    compteur++;
+		    console.log("aaa");
+		    console.log(bd[compteur-1]);
+		}
+	  }
+	}
 }
 
 let bd=new Array();
