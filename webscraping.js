@@ -109,7 +109,7 @@ const lectureXML = async (result) => {
   let nbReussite=0;
   let nbSiteNonReconnu=0;
   //for(numArticle=0;numArticle<result.dblp.article.length;numArticle++){
-  for(numArticle=0;numArticle<5;numArticle++){
+  for(numArticle=0;numArticle<200;numArticle++){
     let nombreArticle=numArticle+1;
     let titre=result.dblp.article[numArticle].title;
     console.log(result.dblp.article[numArticle].title);
@@ -132,20 +132,53 @@ const lectureXML = async (result) => {
       console.log("Réussite ("+nbReussite+"/"+nombreArticle+") : "+parseInt((nbReussite*1.0/nombreArticle)*100,10)+"%  Site non connu : ("+nbSiteNonReconnu+"/"+nombreArticle+")"+parseInt((nbSiteNonReconnu*1.0/nombreArticle)*100,10)+"% Aucune doc ("+nbEchec+"/"+nombreArticle+"): "+parseInt((nbEchec*1.0/nombreArticle)*100,10)+"%");
     })
    }
-  console.log(bd);
+  exportJSON();
 }
-
+function exportJSON(){
+	jsonData=JSON.stringify(bd);
+	var fs = require('fs');
+	fs.writeFile("test.txt", jsonData, function(err) {
+	    if (err) {
+	        console.log(err);
+	    }
+	});
+}
 function ajoutStructure(value){
 	for(j=0;j<value.length;j++){
-	  for(i=0;i<value.length;i++){
-	  	if(j!=j){
-		    bd[compteur]={"clé":value[j],"similitude":[{"clé_sim":value[i],"poids":1}]};
-		    compteur++;
-		    console.log("aaa");
-		    console.log(bd[compteur-1]);
+	  	tableau_similitude=new Array();
+	  	cmp=0;
+	  	indice=rechercheIndice(value[j]);
+	  	for(i=0;i<value.length;i++){
+		  	if(j!=i){
+		  		poid=getPoid(indice,value[i])
+		  		if(poid==1)tableau_similitude[cmp]={"clé_sim":value[i],"poids":1};
+			    cmp++;
+		  	}
 		}
-	  }
+		if(indice == -1){
+			bd[compteur]={"clé":value[j],"similitude":tableau_similitude};
+			compteur++;
+		}
+		else{
+			bd[compteur].similitude=bd[compteur].similitude.concat(tableau_similitude);
+		}
 	}
+}
+function getPoid(indice,simi){
+	if(bd[indice]==null) return 1;
+	for(i=0; i<bd[indice].similitude.length; i++){
+		if(bd[indice].similitude[i].clé_sim==simi){
+				bd[indice].similitude[i].poids++;
+				return 0;
+		}
+	}
+	return 1;
+}
+function rechercheIndice(cle){
+	for(i=0;i<bd.length;i++){
+		if(bd[i].cle == cle) return i;
+	}
+	return -1;
 }
 
 let bd=new Array();
@@ -166,5 +199,7 @@ parser.parseString(xml_string, function(error, result) {
       console.log(error);
   }
 });
+
+
 
 
