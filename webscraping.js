@@ -109,7 +109,7 @@ const lectureXML = async (result) => {
   let nbReussite=0;
   let nbSiteNonReconnu=0;
   //for(numArticle=0;numArticle<result.dblp.article.length;numArticle++){
-  for(numArticle=0;numArticle<200;numArticle++){
+  for(numArticle=0;numArticle<600;numArticle++){
     let nombreArticle=numArticle+1;
     let titre=result.dblp.article[numArticle].title;
     console.log(result.dblp.article[numArticle].title);
@@ -137,7 +137,7 @@ const lectureXML = async (result) => {
 function exportJSON(){
 	jsonData=JSON.stringify(bd);
 	var fs = require('fs');
-	fs.writeFile("test.txt", jsonData, function(err) {
+	fs.writeFile("test.json", jsonData, function(err) {
 	    if (err) {
 	        console.log(err);
 	    }
