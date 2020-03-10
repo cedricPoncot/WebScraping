@@ -26,20 +26,40 @@ function ecritureRes(indice){
 	}
 }
 
-var jsonfile;
-var Myfun = function(){
-	var xhttp;
-	xhttp=new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-	if (this.readyState == 4 && this.status == 200) {
-	myFunction(this);
-	}
-	};
-	xhttp.open("GET","test.json" /*"http://ec2-13-126-214-40.ap-south-1.compute.amazonaws.com:5000/strokedata_now/46465464"*/, true);
-	xhttp.send();
+
+
+
+/*
+Article 1 -> A B
+Article 2 -> A C
+Article 3 -> A C D
+
+A,B,1
+A,C,2
+A,D,1
+*/
+
+// Exécute un appel AJAX GET
+// Prend en paramètres l'URL cible et la fonction callback appelée en cas de succès
+function ajaxGet(url, callback) {
+    var req = new XMLHttpRequest();
+    req.open("GET", url);
+    req.addEventListener("load", function () {
+        if (req.status >= 200 && req.status < 400) {
+            // Appelle la fonction callback en lui passant la réponse de la requête
+            callback(req.responseText);
+        } else {
+            console.error(req.status + " " + req.statusText + " " + url);
+        }
+    });
+    req.addEventListener("error", function () {
+        console.error("Erreur réseau avec l'URL " + url);
+    });
+    req.send(null);
 }
-Myfun()
-setInterval(Myfun(), 10000)
-function myFunction(xhttp) {
-	jsonfile =JSON.parse(xhttp.responseText);
+
+function afficher(reponse) {
+    console.log(reponse);
 }
+
+ajaxGet("test.json", afficher);

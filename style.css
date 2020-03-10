@@ -1,0 +1,18 @@
+body{
+	background-color: #D6AD7C;
+}
+
+h1{
+	color:#542323;
+	font-size:300%;
+	margin: auto;
+	border: 3px solid #542323;
+	text-align: center;
+}
+
+#requete{
+	margin-top: 15px;
+}
+#tab{
+	border: solid 1px black;
+}
